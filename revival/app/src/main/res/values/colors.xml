@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="audex_teal">#00696A</color>
+    <color name="audex_teal_dark">#004F50</color>
+    <color name="audex_teal_container">#9CF1F1</color>
+    <color name="audex_on_teal_container">#002020</color>
+    <color name="audex_amber">#7A5900</color>
+    <color name="audex_amber_container">#FFDF9E</color>
+    <color name="audex_error">#B3261E</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+</resources>

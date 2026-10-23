@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Audex Revival</string>
+    <string name="service_label">Audex Revival</string>
+    <string name="title_settings">Audex Settings</string>
+    <string name="title_events">Event Settings</string>
+    <string name="title_volume">Volume Settings</string>
+
+    <string name="accessibility_description">Audex Revival is Audible Access. It plays short sounds for events such as clicking, touching, swiping, opening and closing windows and menus, scrolling, performing gestures and long pressing. A different sound is associated with each event.</string>
+    <string name="app_description">Audex Revival is Audible Access. It plays short sounds for events such as clicking, touching, swiping, opening and closing windows and menus, scrolling, performing gestures and long pressing.</string>
+    <string name="app_tutorial">Open Audex settings to choose a sound scheme, change volumes, and turn individual events on or off. Smart labeling gives spoken labels to controls that do not have one.</string>
+    <string name="welcome_message">Welcome to Audex Revival!</string>
+    <string name="service_ready">Audex Revival is now ready.</string>
+    <string name="service_running">Audex Revival is on.</string>
+    <string name="service_stopped">Audex Revival is off. Turn it on in Accessibility settings to hear event sounds.</string>
+    <string name="status_title">Service status</string>
+    <string name="enable_service">Turn on Audex Revival</string>
+    <string name="open_accessibility_settings">Open Accessibility settings</string>
+    <string name="accessibility_settings_unavailable">Could not open Accessibility settings on this device.</string>
+    <string name="suspend_audex">Suspend Audex Revival</string>
+    <string name="suspend_hint">Stops all sounds and smart labeling without turning off the accessibility service. The setting is remembered across restarts.</string>
+    <string name="settings_button">Audex settings</string>
+    <string name="events_button">Event settings</string>
+    <string name="volume_button">Volume settings</string>
+    <string name="about_button">About and help</string>
+    <string name="version_format">Version %1$s</string>
+
+    <string name="scheme_title">Sound scheme</string>
+    <string name="scheme_hint">Innovex, Voiceover, Talkback and Classic Talkback use the original bundled sounds. Shared reads files from a folder. Custom lets you choose a file for each event.</string>
+    <string name="scheme_changed">Sound scheme set to %1$s.</string>
+    <string name="scheme_custom_hint">Custom scheme selected. Open Event settings to choose an audio file for each event.</string>
+    <string name="scheme_shared_hint">Shared scheme selected. Files placed in the shared sounds folder are used; missing files fall back to Innovex.</string>
+
+    <string name="sls_switch">Smart labeling (SLS)</string>
+    <string name="sls_hint">Shows a small SLS button that toggles spoken labels for controls without a label. Focus a control and tap the button to exclude or include it.</string>
+    <string name="disable_audible_switch">Disable audible feedback</string>
+    <string name="disable_audible_hint">Mutes event sounds and smart labeling sounds. Haptic feedback continues to follow its own setting.</string>
+    <string name="haptic_switch">Haptic feedback on click</string>
+    <string name="haptic_hint">Vibrates briefly when a click event plays.</string>
+    <string name="startup_switch">Startup feedback</string>
+    <string name="startup_hint">Plays the ready sound and a vibration when the service starts or the app opens.</string>
+    <string name="priority_title">Audex priority</string>
+    <string name="priority_hint">Controls how much feedback Audex claims from other accessibility services. Leave it at 100% unless you have conflicts with a screen reader.</string>
+    <string name="priority_percent">%1$d%%</string>
+    <string name="priority_content_description">Audex priority %1$d percent</string>
+    <string name="priority_changed">Audex priority set to %1$d percent.</string>
+    <string name="reset_settings">Reset all Audex Revival settings</string>
+    <string name="reset_confirm_title">Reset settings?</string>
+    <string name="reset_confirm_message">This restores every event toggle, scheme, volume and smart labeling setting to its default and deletes custom sounds you have chosen.</string>
+    <string name="reset_confirm_action">Reset</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset_done">All settings restored to their defaults.</string>
+
+    <string name="events_hint">Play previews the sound currently assigned to an event. Choose is available with the Custom scheme.</string>
+    <string name="play">Play</string>
+    <string name="choose">Choose</string>
+    <string name="play_sound">Play %1$s sound</string>
+    <string name="choose_sound">Choose sound for %1$s</string>
+    <string name="sound_played">Playing %1$s sound.</string>
+    <string name="sound_not_loaded">That sound is still loading. Try again in a moment.</string>
+    <string name="custom_sound_selected">Sound updated for %1$s.</string>
+    <string name="custom_sound_failed">Could not use that audio file. Try another file.</string>
+    <string name="shared_folder_title">Shared sounds folder</string>
+    <string name="shared_folder_message">Copy audio files named click, touch, touchCleared, focusInteractive, focusNoninteractive, longPress, scroll, gestureBegin, gestureEnd, select, windowState, chargerPlugged, chargerUnplugged, screenOn and screenOff into this folder. Supported extensions are ogg, wav, mp3, mid and m4a.\n\n%1$s</string>
+    <string name="shared_folder_create_failed">Could not create the shared sounds folder.</string>
+    <string name="copy_path">Copy path</string>
+    <string name="path_copied">Path copied to the clipboard.</string>
+    <string name="close">Close</string>
+    <string name="open_shared_folder">Shared sounds folder</string>
+
+    <string name="volume_hint">Choose the volume for event sounds relative to media volume.</string>
+    <string name="volume_option">%1$d%% of media volume</string>
+    <string name="volume_match">Match media volume</string>
+    <string name="volume_set">Volume set to %1$d percent.</string>
+    <string name="volume_set_match">Event sounds now match media volume.</string>
+
+    <string name="event_click">Click</string>
+    <string name="event_touch">Touch</string>
+    <string name="event_touch_cleared">Touch cleared</string>
+    <string name="event_focus_interactive">Focus on an interactive control</string>
+    <string name="event_focus_non_interactive">Focus on a non-interactive item</string>
+    <string name="event_long_press">Long press</string>
+    <string name="event_scroll">Scroll</string>
+    <string name="event_gesture_begin">Gesture start</string>
+    <string name="event_gesture_end">Gesture end</string>
+    <string name="event_select">Select</string>
+    <string name="event_window_state">Window change</string>
+    <string name="event_charger_plugged">Charger connected</string>
+    <string name="event_charger_unplugged">Charger disconnected</string>
+    <string name="event_screen_on">Screen on</string>
+    <string name="event_screen_off">Screen off</string>
+
+    <string name="sls_button">SLS</string>
+    <string name="sls_tutorial">Smart labeling: focus a control without a label and tap this button to exclude it. Focus it again and tap to include it.</string>
+    <string name="sls_pick_control">Focus an unlabeled control first, then tap this button.</string>
+    <string name="sls_exclude">Exclude %1$s from smart labeling</string>
+    <string name="sls_include">Include %1$s in smart labeling</string>
+    <string name="sls_applied">Smart labeling will be applied to %1$s.</string>
+    <string name="sls_not_applied">Smart labeling will not be applied to %1$s.</string>
+
+    <string name="help_title">About Audex Revival</string>
+    <string name="help_body">Audex Revival plays short sounds for what happens on screen: clicks, focus changes, touches, scrolling, gestures, window changes, charger events, and the screen turning on or off.\n\nUse Sound scheme to switch between the four original schemes: Innovex, Voiceover, Talkback and Classic Talkback. Smart labeling adds spoken labels to controls that do not have one.\n\nWhen Audex Revival is handling touch exploration, swipe left then right with two fingers to hear the time, and swipe right then left to hear the battery level.\n\nThis revival keeps the original sounds. It removes the abandoned Firebase news service, the anti-piracy code, the privileged auto-enable hack and the dead web links.\n\nOriginal Audex by Akash Kakkar (Akash Delight Computings), 2017. Thank you for making Android more audible.</string>
+</resources>

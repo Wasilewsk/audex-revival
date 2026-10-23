@@ -11,7 +11,10 @@ enum class SoundScheme(
     TALKBACK("Talkback"),
     CLASSIC_TALKBACK("Classic Talkback"),
     SHARED("Shared", usesExternalFiles = true),
-    CUSTOM("Custom", usesExternalFiles = true);
+    CUSTOM("Custom", usesExternalFiles = true),
+
+    /** Sounds come from an installed theme package; see AudexPreferences.activeThemeId. */
+    THEME("Theme", usesExternalFiles = true);
 
     companion object {
         /** Accepts both the enum name and the display name, including the original misspelling. */
@@ -105,7 +108,7 @@ internal fun builtInSoundRes(scheme: SoundScheme, event: AudexEvent): Int = when
         AudexEvent.SCREEN_OFF -> R.raw.ctbscreenlock
     }
 
-    SoundScheme.SHARED, SoundScheme.CUSTOM -> 0
+    SoundScheme.SHARED, SoundScheme.CUSTOM, SoundScheme.THEME -> 0
 }
 
 internal val soundFileExtensions = listOf(".ogg", ".wav", ".mp3", ".mid", ".m4a")

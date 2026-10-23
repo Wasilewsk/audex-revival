@@ -15,3 +15,8 @@ auto-enable code, and dead service URLs are not included.
 
 The original APK and the raw decompiled Xamarin/apktool output are not included in
 this repository.
+
+Community themes downloaded from the [Audex Revival theme store](https://github.com/Wasilewsk/audex-themes)
+are user-supplied audio, are not part of this repository, and remain under the
+license declared in each theme's manifest. The two demo store themes are original
+CC0-1.0 synthesis.

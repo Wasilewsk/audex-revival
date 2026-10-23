@@ -10,9 +10,11 @@ packs and launcher icon are preserved; the abandoned cloud stack, anti-piracy co
 privileged auto-enable hack, storage permissions and dead links are gone.
 
 - **Package:** `com.infinity.audex_revivel` (installs alongside the original app)
-- **Version:** 6.0.0-revival (versionCode 600)
+- **Version:** 6.1.0-revival (versionCode 610)
 - **Android:** 6.0+ (`minSdk 23`), tested on Android 13 and built against API 36
-- **Network:** none. The app has no internet permission and collects no data.
+- **Network:** the optional [theme store](https://github.com/Wasilewsk/audex-themes)
+  only. The app reads a public index and downloads the theme you choose over
+  HTTPS. No accounts, analytics, ads or uploads; nothing about you is sent.
 
 ## Features
 
@@ -30,6 +32,12 @@ privileged auto-enable hack, storage permissions and dead links are gone.
 - **Smart labeling (SLS):** a floating button that toggles generated spoken labels
   for unlabeled controls and remembers exclusions.
 - Spoken time and battery level on two-finger accessibility gestures.
+- **Theme store:** browse community sound themes hosted on GitHub, install them,
+  switch to them from the sound-scheme picker, preview them, and remove them.
+  Packages are checksum-verified and extracted with path-traversal protection.
+- **Share as theme:** export your Custom scheme as a `.audextheme` package, share
+  it, and submit it to the community store. See
+  [CONTRIBUTING.md](https://github.com/Wasilewsk/audex-themes/blob/main/CONTRIBUTING.md).
 - Persistent suspend switch; reset to defaults.
 
 ## Install
@@ -40,6 +48,7 @@ Build the APK (below) and sideload it:
 adb install -r app/build/outputs/apk/release/app-release.apk
 ```
 
+A signed APK is attached to the [latest release](https://github.com/Wasilewsk/audex-revival/releases).
 Or copy the APK to the device and open it. Then open **Audex Revival** and press
 **Turn on Audex Revival**, which opens Accessibility settings. Enable
 **Audex Revival** there.
@@ -87,6 +96,8 @@ Without `keystore.properties`, `assembleRelease` produces an unsigned APK; use
 | Sound schemes / SoundPool | [`SoundEngine.kt`](revival/app/src/main/java/com/infinity/audex_revivel/core/SoundEngine.kt), [`SoundScheme.kt`](revival/app/src/main/java/com/infinity/audex_revivel/core/SoundScheme.kt) |
 | Preferences | [`AudexPreferences.kt`](revival/app/src/main/java/com/infinity/audex_revivel/core/AudexPreferences.kt) |
 | Smart labeling | [`SmartLabelingOverlay.kt`](revival/app/src/main/java/com/infinity/audex_revivel/service/SmartLabelingOverlay.kt), [`SmartLabeler.kt`](revival/app/src/main/java/com/infinity/audex_revivel/core/SmartLabeler.kt) |
+| Theme store | [`ThemeStoreClient.kt`](revival/app/src/main/java/com/infinity/audex_revivel/core/theme/ThemeStoreClient.kt), [`ThemePackageInstaller.kt`](revival/app/src/main/java/com/infinity/audex_revivel/core/theme/ThemePackageInstaller.kt), [`ThemeStoreActivity.kt`](revival/app/src/main/java/com/infinity/audex_revivel/ui/ThemeStoreActivity.kt) |
+| Theme export | [`ThemeExporter.kt`](revival/app/src/main/java/com/infinity/audex_revivel/core/theme/ThemeExporter.kt), [`ThemePackager.kt`](revival/app/src/main/java/com/infinity/audex_revivel/core/theme/ThemePackager.kt) |
 | UI | [`ui/`](revival/app/src/main/java/com/infinity/audex_revivel/ui) and [`res/layout/`](revival/app/src/main/res/layout) |
 | Original audio | [`res/raw/`](revival/app/src/main/res/raw) |
 
@@ -95,22 +106,34 @@ The decompilation analysis, including the original scheme-to-asset table, is in
 
 ## Verification
 
-- 24 JVM unit tests cover scroll/pitch math, smart-label generation, event
-  metadata/defaults, the full scheme-to-asset mapping, and spoken battery/time
-  text.
+- 50 JVM unit tests cover scroll/pitch math, smart-label generation, event
+  metadata/defaults, the full scheme-to-asset mapping, spoken battery/time text,
+  theme manifest and index parsing, download URL safety, and safe package
+  extraction and round-trip packaging.
 - On an Android 13 (API 33) emulator: install, cold launch, main status, live
   accessibility connection, SLS overlay window, settings/event/volume screens,
-  all 15 event rows, the six-scheme picker, and switching to Custom (which reveals
-  the Choose buttons).
+  all 15 event rows, the sound-scheme picker with installed themes, and switching
+  to Custom (which reveals the Choose buttons).
+- Theme store on the emulator: loaded the live GitHub index over HTTPS, listed
+  both demo themes, installed **Chime** (SHA-256 checked), applied it from the
+  store and from the scheme picker, kept it selected across a process restart,
+  played its preview, and removed it with the scheme falling back to Innovex.
+- Export on the emulator: packaged a custom scheme as `adb-theme-1.0.0.audextheme`,
+  opened the share/upload dialog, and the store's own validator accepted the
+  downloaded package.
 - Not covered by automation: audible output on a physical device, OEM-specific
-  accessibility behavior, and two-finger gestures (they depend on touch
-  exploration and the active screen reader).
+  accessibility behavior, the GitHub upload page itself, and two-finger gestures
+  (they depend on touch exploration and the active screen reader).
 - The original app's `targetSdk 25` code is not reused; no Xamarin, Firebase, or
   Android Support Library remains.
 
 ## Differences from the original
 
 - New package and signing key; the old app is untouched.
+- Adds `INTERNET`, used only for the theme store. Theme browsing is explicit;
+  nothing is fetched until you open the store, and no data is uploaded.
+- Community themes are user-supplied audio, not part of this repository. Each
+  theme declares its own license in its manifest.
 - Firebase/FCM news, clipboard token copying, Play/support links, the anti-piracy
   retaliation, the `su`/`WRITE_SECURE_SETTINGS` auto-enable hack, and the storage
   permissions are removed.

@@ -36,6 +36,9 @@ class MainActivity : AudexActivity() {
         binding.volumeButton.setOnClickListener {
             startActivity(Intent(this, VolumeSettingsActivity::class.java))
         }
+        binding.themeStoreButton.setOnClickListener {
+            startActivity(Intent(this, ThemeStoreActivity::class.java))
+        }
         binding.aboutButton.setOnClickListener { showHelp() }
         binding.suspendSwitch.setOnCheckedChangeListener { _, checked ->
             if (checked != preferences.suspended) {

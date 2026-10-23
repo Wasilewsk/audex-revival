@@ -14,6 +14,8 @@ val keystoreProperties = Properties().apply {
 }
 val hasReleaseSigning = keystorePropertiesFile.isFile &&
     keystoreProperties.getProperty("storeFile")?.isNotBlank() == true
+val defaultThemeStoreUrl =
+    "https://raw.githubusercontent.com/Wasilewsk/audex-themes/main/index.json"
 
 android {
     namespace = "com.infinity.audex_revivel"
@@ -23,8 +25,9 @@ android {
         applicationId = "com.infinity.audex_revivel"
         minSdk = 23
         targetSdk = 36
-        versionCode = 600
-        versionName = "6.0.0-revival"
+        versionCode = 610
+        versionName = "6.1.0-revival"
+        buildConfigField("String", "THEME_STORE_URL", "\"$defaultThemeStoreUrl\"")
     }
 
     buildFeatures {
@@ -49,6 +52,13 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Optional local store index for development: ./gradlew -PthemeStoreUrl=http://10.0.2.2:8000/index.json
+            val override = (project.findProperty("themeStoreUrl") as? String)?.trim()
+            if (!override.isNullOrEmpty()) {
+                buildConfigField("String", "THEME_STORE_URL", "\"$override\"")
+            }
+        }
         release {
             isMinifyEnabled = false
             if (hasReleaseSigning) {
@@ -70,4 +80,5 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.json:json:20240303")
 }

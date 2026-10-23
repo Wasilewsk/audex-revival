@@ -113,7 +113,9 @@ class AudexAccessibilityService : AccessibilityService() {
                 return
             }
             when {
-                key == AudexPreferences.KEY_SCHEME || isCustomSoundKey(key) -> reloadAll()
+                key == AudexPreferences.KEY_SCHEME ||
+                    key == AudexPreferences.KEY_THEME_ID ||
+                    isCustomSoundKey(key) -> reloadAll()
                 key == AudexPreferences.KEY_VOLUME_LEFT || key == AudexPreferences.KEY_VOLUME_RIGHT -> {
                     engine.volume = if (preferences.suspended) 0f else preferences.volume
                 }

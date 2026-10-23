@@ -12,13 +12,18 @@ import com.infinity.audex_revivel.BuildConfig
 import com.infinity.audex_revivel.R
 import com.infinity.audex_revivel.core.AudexPreferences
 import com.infinity.audex_revivel.core.AudexPriority
+import com.infinity.audex_revivel.core.SchemeChoice
 import com.infinity.audex_revivel.core.SoundScheme
+import com.infinity.audex_revivel.core.applySchemeChoice
+import com.infinity.audex_revivel.core.schemeChoices
+import com.infinity.audex_revivel.core.selectedSchemeIndex
 import com.infinity.audex_revivel.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AudexActivity() {
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var preferences: AudexPreferences
     private var updatingUi = false
+    private var choices: List<SchemeChoice> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +39,7 @@ class SettingsActivity : AudexActivity() {
         setupSchemeSpinner()
         setupPrioritySpinner()
         setupSwitches()
+        refreshSchemeSpinner()
         refreshUi()
 
         binding.sharedFolderButton.setOnClickListener { showSharedFolderDialog() }
@@ -43,23 +49,19 @@ class SettingsActivity : AudexActivity() {
         binding.eventSettingsButton.setOnClickListener {
             startActivity(Intent(this, EventSettingsActivity::class.java))
         }
+        binding.themeStoreButton.setOnClickListener {
+            startActivity(Intent(this, ThemeStoreActivity::class.java))
+        }
         binding.resetButton.setOnClickListener { confirmReset() }
     }
 
     override fun onResume() {
         super.onResume()
+        refreshSchemeSpinner()
         refreshUi()
     }
 
     private fun setupSchemeSpinner() {
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            SoundScheme.entries.map { it.displayName },
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.schemeSpinner.adapter = adapter
-        binding.schemeSpinner.setSelection(preferences.scheme.ordinal, false)
         binding.schemeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -68,15 +70,41 @@ class SettingsActivity : AudexActivity() {
                 id: Long,
             ) {
                 if (updatingUi) return
-                val scheme = SoundScheme.entries[position]
-                if (scheme == preferences.scheme) return
-                preferences.scheme = scheme
-                announce(getString(R.string.scheme_changed, scheme.displayName))
-                if (scheme == SoundScheme.CUSTOM) announce(getString(R.string.scheme_custom_hint))
-                if (scheme == SoundScheme.SHARED) announce(getString(R.string.scheme_shared_hint))
+                val choice = choices.getOrNull(position) ?: return
+                val alreadySelected = if (choice.themeId != null) {
+                    preferences.activeThemeId == choice.themeId
+                } else {
+                    preferences.activeThemeId == null && preferences.scheme == choice.scheme
+                }
+                if (alreadySelected) return
+
+                applySchemeChoice(preferences, choice)
+                announce(getString(R.string.scheme_changed, choice.label))
+                when (choice.scheme) {
+                    SoundScheme.CUSTOM -> announce(getString(R.string.scheme_custom_hint))
+                    SoundScheme.SHARED -> announce(getString(R.string.scheme_shared_hint))
+                    else -> Unit
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
+        }
+    }
+
+    private fun refreshSchemeSpinner() {
+        updatingUi = true
+        try {
+            choices = schemeChoices(this, preferences)
+            val adapter = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item,
+                choices.map { it.label },
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.schemeSpinner.adapter = adapter
+            binding.schemeSpinner.setSelection(selectedSchemeIndex(preferences, choices), false)
+        } finally {
+            updatingUi = false
         }
     }
 
@@ -126,7 +154,6 @@ class SettingsActivity : AudexActivity() {
     private fun refreshUi() {
         updatingUi = true
         try {
-            binding.schemeSpinner.setSelection(preferences.scheme.ordinal, false)
             binding.prioritySpinner.setSelection(preferences.priority.ordinal, false)
             binding.slsSwitch.isChecked = preferences.useSls
             binding.disableAudibleSwitch.isChecked = preferences.disableAudibleFeedback

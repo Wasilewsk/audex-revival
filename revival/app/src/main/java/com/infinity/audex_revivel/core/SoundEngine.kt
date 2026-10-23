@@ -3,6 +3,7 @@ package com.infinity.audex_revivel.core
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.SoundPool
+import com.infinity.audex_revivel.core.theme.ThemeStore
 import java.io.File
 import java.util.Collections
 import java.util.EnumMap
@@ -14,6 +15,7 @@ import java.util.EnumMap
  */
 class SoundEngine(context: Context) {
     private val appContext = context.applicationContext
+    private val themeStore = ThemeStore(appContext)
     private var pool: SoundPool? = null
     private val samples = EnumMap<AudexEvent, Int>(AudexEvent::class.java)
     private val loadedSamples: MutableSet<Int> = Collections.synchronizedSet(mutableSetOf())
@@ -71,6 +73,7 @@ class SoundEngine(context: Context) {
         return when (scheme) {
             SoundScheme.SHARED -> loadShared(event, preferences) ?: loadBuiltIn(SoundScheme.INNOVEX, event)
             SoundScheme.CUSTOM -> loadCustom(event, preferences) ?: loadBuiltIn(SoundScheme.INNOVEX, event)
+            SoundScheme.THEME -> loadTheme(event, preferences) ?: loadBuiltIn(SoundScheme.INNOVEX, event)
             else -> loadBuiltIn(scheme, event)
         }
     }
@@ -85,6 +88,13 @@ class SoundEngine(context: Context) {
         val path = preferences.customSoundPath(event) ?: return null
         if (!File(path).isFile) return null
         val id = pool?.load(path, 1) ?: 0
+        return id.takeIf { it != 0 }
+    }
+
+    private fun loadTheme(event: AudexEvent, preferences: AudexPreferences): Int? {
+        val themeId = preferences.activeThemeId ?: return null
+        val file = themeStore.soundFile(themeId, event) ?: return null
+        val id = pool?.load(file.absolutePath, 1) ?: 0
         return id.takeIf { it != 0 }
     }
 

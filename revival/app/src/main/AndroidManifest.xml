@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <!-- Only used to read the public theme store and download chosen themes. -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -38,6 +40,22 @@
             android:exported="false"
             android:label="@string/title_volume"
             android:parentActivityName=".ui.SettingsActivity" />
+
+        <activity
+            android:name=".ui.ThemeStoreActivity"
+            android:exported="false"
+            android:label="@string/title_themes"
+            android:parentActivityName=".ui.MainActivity" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.themes"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <service
             android:name=".service.AudexAccessibilityService"

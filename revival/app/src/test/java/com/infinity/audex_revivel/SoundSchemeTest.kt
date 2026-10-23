@@ -10,8 +10,8 @@ import org.junit.Test
 
 class SoundSchemeTest {
     @Test
-    fun thereAreSixSchemes() {
-        assertEquals(6, SoundScheme.entries.size)
+    fun thereAreSevenSchemes() {
+        assertEquals(7, SoundScheme.entries.size)
     }
 
     @Test
@@ -35,7 +35,7 @@ class SoundSchemeTest {
 
     @Test
     fun fileBackedSchemesDoNotUseRawResources() {
-        for (scheme in listOf(SoundScheme.SHARED, SoundScheme.CUSTOM)) {
+        for (scheme in listOf(SoundScheme.SHARED, SoundScheme.CUSTOM, SoundScheme.THEME)) {
             for (event in AudexEvent.entries) {
                 assertEquals("$scheme should resolve $event from files", 0, builtInSoundRes(scheme, event))
             }

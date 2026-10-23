@@ -16,10 +16,25 @@ class AudexPreferences(context: Context) {
     fun edit(): SharedPreferences.Editor = raw.edit()
 
     var scheme: SoundScheme
-        get() = SoundScheme.fromStored(raw.getString(KEY_SCHEME, null))
-        set(value) {
-            edit().putString(KEY_SCHEME, value.name).apply()
+        get() = if (activeThemeId != null) {
+            SoundScheme.THEME
+        } else {
+            SoundScheme.fromStored(raw.getString(KEY_SCHEME, null))
         }
+        set(value) {
+            if (value == SoundScheme.THEME) return
+            edit().putString(KEY_SCHEME, value.name).remove(KEY_THEME_ID).apply()
+        }
+
+    val activeThemeId: String?
+        get() = raw.getString(KEY_THEME_ID, null)?.takeIf { it.isNotBlank() }
+
+    fun selectTheme(themeId: String) {
+        edit()
+            .putString(KEY_SCHEME, SoundScheme.THEME.name)
+            .putString(KEY_THEME_ID, themeId)
+            .apply()
+    }
 
     var priority: AudexPriority
         get() = AudexPriority.fromPercent(raw.getInt(KEY_PRIORITY, AudexPriority.HUNDRED.percent))
@@ -115,6 +130,7 @@ class AudexPreferences(context: Context) {
         const val KEY_STARTUP = "StartupFeedback"
         const val KEY_SUSPENDED = "suspendAudex"
         const val KEY_EXCLUDED = "ControlsToExcludeFromSLS"
+        const val KEY_THEME_ID = "activeThemeId"
 
         private val customKeys = AudexEvent.entries.map { it.customPrefKey }.toSet()
 
@@ -128,6 +144,7 @@ class AudexPreferences(context: Context) {
                 key == KEY_SUSPENDED ||
                 key == KEY_PRIORITY ||
                 key == KEY_EXCLUDED ||
+                key == KEY_THEME_ID ||
                 key in customKeys
     }
 }

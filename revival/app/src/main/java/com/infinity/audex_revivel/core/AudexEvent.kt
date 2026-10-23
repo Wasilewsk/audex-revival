@@ -2,6 +2,7 @@ package com.infinity.audex_revivel.core
 
 import androidx.annotation.StringRes
 import com.infinity.audex_revivel.R
+import java.util.Locale
 
 /**
  * One tunable feedback event. Preference keys mirror the original Audex
@@ -58,5 +59,13 @@ enum class AudexEvent(
         true,
     ),
     SCREEN_ON("screenOnEvent", "screenOnSound", "screenOn", R.string.event_screen_on, true),
-    SCREEN_OFF("screenOffEvent", "screenOffSound", "screenOff", R.string.event_screen_off, true),
+    SCREEN_OFF("screenOffEvent", "screenOffSound", "screenOff", R.string.event_screen_off, true);
+
+    /** Stable id used by theme manifests and theme sound file names. */
+    val themeKey: String get() = name.lowercase(Locale.US)
+
+    companion object {
+        fun fromThemeKey(value: String): AudexEvent? =
+            entries.firstOrNull { it.themeKey == value.lowercase(Locale.US) }
+    }
 }

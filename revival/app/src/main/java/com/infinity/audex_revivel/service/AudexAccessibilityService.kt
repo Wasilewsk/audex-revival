@@ -31,6 +31,13 @@ class AudexAccessibilityService : AccessibilityService() {
     private lateinit var haptics: Haptics
     private lateinit var overlay: SmartLabelingOverlay
     private var receiver: SystemEventReceiver? = null
+    private val gestureFeedback = com.infinity.audex_revivel.core.GestureFeedback()
+
+    private fun gestureSound(event: AudexEvent?) {
+        if (event == null) return
+        Log.d(TAG, "Gesture feedback: ${event.name}")
+        playIfEnabled(event)
+    }
 
     @Volatile
     private var screenOn = true
@@ -187,11 +194,21 @@ class AudexAccessibilityService : AccessibilityService() {
 
                 AccessibilityEvent.TYPE_VIEW_SELECTED -> playIfEnabled(AudexEvent.SELECT)
 
+                // Modern screen readers can recognize gestures themselves, without
+                // framework GESTURE_DETECTION events. Touch boundaries still arrive
+                // for swipes, multi-finger and compound gestures. Observe them without
+                // requesting touch exploration or taking gestures away from the reader.
+                AccessibilityEvent.TYPE_TOUCH_INTERACTION_START ->
+                    gestureSound(gestureFeedback.touchStarted())
+
+                AccessibilityEvent.TYPE_TOUCH_INTERACTION_END ->
+                    gestureSound(gestureFeedback.touchEnded())
+
                 AccessibilityEvent.TYPE_GESTURE_DETECTION_START ->
-                    playIfEnabled(AudexEvent.GESTURE_BEGIN)
+                    gestureSound(gestureFeedback.detectionStarted())
 
                 AccessibilityEvent.TYPE_GESTURE_DETECTION_END ->
-                    playIfEnabled(AudexEvent.GESTURE_END)
+                    gestureSound(gestureFeedback.detectionEnded())
 
                 AccessibilityEvent.TYPE_VIEW_LONG_CLICKED -> playIfEnabled(AudexEvent.LONG_CLICK)
 
@@ -332,7 +349,7 @@ class AudexAccessibilityService : AccessibilityService() {
         }.onFailure { Log.w(TAG, "Could not play the startup sound", it) }
     }
 
-    override fun onInterrupt() = Unit
+    override fun onInterrupt() { gestureFeedback.reset() }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)

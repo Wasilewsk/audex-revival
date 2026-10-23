@@ -157,3 +157,39 @@ provenance of the bundled sounds and icon.
 
 The original APK and the raw decompiled artifacts are **not** included in this
 repository.
+
+## Version 7.0 — build 1024
+
+Settings → **Create new theme** opens a Theme name dialog with Cancel and Okay.
+**Audex theme creator** lists all 15 sound events, their assigned files, and
+Preview sound / Change sound controls. New drafts start with Innovex sounds;
+changes persist separately from the active scheme. **Save** installs the theme
+locally so it appears in Sound scheme. **Edit created theme** reopens a draft.
+Audio imports support OGG, WAV, MP3, MIDI and M4A, up to 2 MB per sound.
+**Upload to theme store** asks for author/license, saves an `.audextheme` through
+the Android file picker, and opens the existing GitHub submission page. Store
+publication still follows the repository's review/index process.
+
+Settings also includes **Check for updates** and **Check for updates automatically**.
+Automatic checks run on accessibility-service startup and every five minutes
+while that service runs; Android sleep may delay checks. Grant notifications to
+receive a single notification per available release. The update screen shows
+release notes with Install later and Install now. Installation requires Android's
+install-from-this-source permission and confirmation in the system installer.
+Downloads are restricted to the official repository's release assets over HTTPS;
+APK package name, higher versionCode, and signing identity are verified before
+opening the installer. Failed background checks remain quiet.
+
+Release tags should use `v7.1.0`, or `v7.0-build1025` for another build of 7.0.
+Attach the signed APK as a release asset. The existing project keystore is
+required for updates to an installed release; an unsigned release APK cannot
+be installed. For a separate local emulator copy:
+
+```sh
+cd revival
+./gradlew testDebugUnitTest assembleDebug -PstudioTest=true
+```
+
+This produces **Audex Revival 7.0 Test** (`com.infinity.audex_revivel.studiotest`).
+The test copy cannot install production-release updates because its package and
+signing identity differ.

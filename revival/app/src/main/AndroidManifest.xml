@@ -5,6 +5,9 @@
     <!-- Only used to read the public theme store and download chosen themes. -->
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -46,6 +49,15 @@
             android:exported="false"
             android:label="@string/title_themes"
             android:parentActivityName=".ui.MainActivity" />
+
+        <activity
+            android:name=".ui.ThemeCreatorActivity"
+            android:exported="false"
+            android:label="@string/theme_creator_title"
+            android:parentActivityName=".ui.SettingsActivity" />
+
+        <activity android:name=".ui.UpdateActivity" android:exported="false"
+            android:label="@string/update_check" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

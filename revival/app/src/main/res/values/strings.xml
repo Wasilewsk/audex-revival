@@ -156,4 +156,46 @@
     <string name="share_theme_upload">Upload page</string>
     <string name="share_theme_chooser">Share theme package</string>
     <string name="share_theme_failed">Could not export the theme: %1$s</string>
+
+    <string name="create_new_theme">Create new theme</string>
+    <string name="edit_created_theme">Edit created theme</string>
+    <string name="theme_creator_title">Audex theme creator</string>
+    <string name="creator_name">Theme name</string>
+    <string name="creator_okay">Okay</string>
+    <string name="creator_name_required">Enter a theme name (1–60 characters).</string>
+    <string name="creator_save">Save</string>
+    <string name="creator_upload">Upload to theme store</string>
+    <string name="creator_preview">Preview sound</string>
+    <string name="creator_change">Change sound</string>
+    <string name="creator_preview_event">Preview sound for %1$s</string>
+    <string name="creator_change_event">Change sound for %1$s</string>
+    <string name="creator_assigned">Assigned sound: %1$s</string>
+    <string name="creator_default">Innovex default</string>
+    <string name="creator_saved">Theme saved. Select it from Sound scheme to use it.</string>
+    <string name="creator_failed">Could not save theme: %1$s</string>
+    <string name="creator_empty">No created themes yet.</string>
+    <string name="creator_hint">Choose and preview sounds for each event. Your draft is kept automatically; Save adds the theme to Sound scheme.</string>
+    <string name="creator_file_error">Choose a playable OGG, WAV, MP3, MIDI or M4A file up to 2 MB.</string>
+    <string name="creator_upload_hint">Save the theme file, then attach it on the GitHub submission page. Sign in to GitHub to submit it for the store. Only upload sounds you have permission to share.</string>
+    <string name="creator_export">Save theme file</string>
+    <string name="creator_submission">Open submission page</string>
+    <string name="creator_exported">Theme file saved.</string>
+    <string name="creator_author_required">Enter the author and license for your theme.</string>
+
+    <string name="update_check">Check for updates</string>
+    <string name="update_automatic">Check for updates automatically</string>
+    <string name="update_automatic_hint">Check when the Audex service starts and every five minutes while it runs. Android may delay checks while the device sleeps. Allow notifications to hear about updates.</string>
+    <string name="update_title">O look, there is a new update for Audex Revival</string>
+    <string name="update_channel">Audex updates</string>
+    <string name="update_checking">Checking the Audex Revival releases page…</string>
+    <string name="update_current">You have the latest available version.</string>
+    <string name="update_failed">Could not update Audex Revival: %1$s</string>
+    <string name="update_available">Update available: %1$s</string>
+    <string name="update_no_notes">No release notes were provided.</string>
+    <string name="update_later">Install later</string>
+    <string name="update_now">Install now</string>
+    <string name="update_downloading">Downloading the update…</string>
+    <string name="update_install_permission">Allow Audex Revival to install updates, then return here.</string>
+    <string name="update_installer_open">Follow the Android installer to finish updating.</string>
+    <string name="update_no_installer">No Android package installer is available.</string>
 </resources>

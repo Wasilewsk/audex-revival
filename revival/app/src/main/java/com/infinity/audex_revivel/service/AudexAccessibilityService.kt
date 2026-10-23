@@ -59,6 +59,7 @@ class AudexAccessibilityService : AccessibilityService() {
             screenOn = getSystemService(PowerManager::class.java)?.isInteractive ?: true
             applyServicePriority()
             reloadAll()
+            com.infinity.audex_revivel.core.update.AppUpdater.start(this)
 
             if (preferences.startupFeedback) {
                 haptics.startup()
@@ -115,6 +116,7 @@ class AudexAccessibilityService : AccessibilityService() {
             when {
                 key == AudexPreferences.KEY_SCHEME ||
                     key == AudexPreferences.KEY_THEME_ID ||
+                    key == AudexPreferences.KEY_THEME_CONTENT ||
                     isCustomSoundKey(key) -> reloadAll()
                 key == AudexPreferences.KEY_VOLUME_LEFT || key == AudexPreferences.KEY_VOLUME_RIGHT -> {
                     engine.volume = if (preferences.suspended) 0f else preferences.volume
@@ -343,6 +345,7 @@ class AudexAccessibilityService : AccessibilityService() {
     }
 
     override fun onDestroy() {
+        com.infinity.audex_revivel.core.update.AppUpdater.stop()
         try {
             if (::preferences.isInitialized) {
                 preferences.raw.unregisterOnSharedPreferenceChangeListener(preferenceListener)

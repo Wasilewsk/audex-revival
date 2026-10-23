@@ -130,6 +130,7 @@ class AudexPreferences(context: Context) {
         const val KEY_STARTUP = "StartupFeedback"
         const val KEY_SUSPENDED = "suspendAudex"
         const val KEY_EXCLUDED = "ControlsToExcludeFromSLS"
+        const val KEY_THEME_CONTENT = "themeContentRevision"
         const val KEY_THEME_ID = "activeThemeId"
 
         private val customKeys = AudexEvent.entries.map { it.customPrefKey }.toSet()

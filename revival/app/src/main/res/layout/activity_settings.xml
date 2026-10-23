@@ -32,6 +32,19 @@
                 android:text="@string/scheme_title"
                 android:textAppearance="?attr/textAppearanceTitleMedium" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/createThemeButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/create_new_theme" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/editThemeButton"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/edit_created_theme" />
+
             <Spinner
                 android:id="@+id/schemeSpinner"
                 android:layout_width="match_parent"
@@ -156,6 +169,22 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/theme_store_button" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/checkUpdatesButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/update_check" />
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/automaticUpdatesSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="@string/update_automatic" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/update_automatic_hint" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/resetButton"

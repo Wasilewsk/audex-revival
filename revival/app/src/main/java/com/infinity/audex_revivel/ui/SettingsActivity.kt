@@ -20,6 +20,9 @@ import com.infinity.audex_revivel.core.selectedSchemeIndex
 import com.infinity.audex_revivel.databinding.ActivitySettingsBinding
 
 class SettingsActivity : AudexActivity() {
+    private val notificationPermission = registerForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.RequestPermission(),
+    ) { }
     private lateinit var binding: ActivitySettingsBinding
     private lateinit var preferences: AudexPreferences
     private var updatingUi = false
@@ -33,7 +36,7 @@ class SettingsActivity : AudexActivity() {
         setUpToolbar(binding.toolbar, showBack = true)
 
         preferences = AudexPreferences(this)
-        binding.versionText.text = getString(R.string.version_format, BuildConfig.VERSION_NAME)
+        binding.versionText.text = getString(R.string.version_format, "${BuildConfig.VERSION_NAME} (build ${BuildConfig.VERSION_CODE})")
         binding.resetButton.setTextColor(getColor(R.color.audex_error))
 
         setupSchemeSpinner()
@@ -52,6 +55,22 @@ class SettingsActivity : AudexActivity() {
         binding.themeStoreButton.setOnClickListener {
             startActivity(Intent(this, ThemeStoreActivity::class.java))
         }
+        binding.checkUpdatesButton.setOnClickListener {
+            startActivity(Intent(this, UpdateActivity::class.java).putExtra("cached", false))
+        }
+        binding.automaticUpdatesSwitch.isChecked = com.infinity.audex_revivel.core.update.AppUpdater.automatic(this)
+        binding.automaticUpdatesSwitch.setOnCheckedChangeListener { _, checked ->
+            com.infinity.audex_revivel.core.update.AppUpdater.setAutomatic(this, checked)
+            if (checked && android.os.Build.VERSION.SDK_INT >= 33) {
+                notificationPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+        if (binding.automaticUpdatesSwitch.isChecked && android.os.Build.VERSION.SDK_INT >= 33 &&
+            checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+            notificationPermission.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+        }
+        binding.createThemeButton.setOnClickListener { ThemeCreatorActivity.promptNew(this) }
+        binding.editThemeButton.setOnClickListener { ThemeCreatorActivity.chooseDraft(this) }
         binding.resetButton.setOnClickListener { confirmReset() }
     }
 

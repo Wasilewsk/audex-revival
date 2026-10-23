@@ -25,8 +25,8 @@ android {
         applicationId = "com.infinity.audex_revivel"
         minSdk = 23
         targetSdk = 36
-        versionCode = 610
-        versionName = "6.1.0-revival"
+        versionCode = 1024
+        versionName = "7.0"
         buildConfigField("String", "THEME_STORE_URL", "\"$defaultThemeStoreUrl\"")
     }
 
@@ -53,6 +53,11 @@ android {
 
     buildTypes {
         debug {
+            // Install a development copy without replacing the release-signed app.
+            if (providers.gradleProperty("studioTest").orNull == "true") {
+                applicationIdSuffix = ".studiotest"
+                resValue("string", "app_name", "Audex Revival 7.0 Test")
+            }
             // Optional local store index for development: ./gradlew -PthemeStoreUrl=http://10.0.2.2:8000/index.json
             val override = (project.findProperty("themeStoreUrl") as? String)?.trim()
             if (!override.isNullOrEmpty()) {
